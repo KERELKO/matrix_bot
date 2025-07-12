@@ -67,5 +67,16 @@ class BaseEventHandlers:
             return
         logger.info(f'Successfully joined room: room_id={room.room_id}')
 
+    async def test_bot_handler(self, room: MatrixRoom, event: RoomMessageText):
+        if not event.body.startswith('!test'):
+            return
+        logger.info('Test bot handler')
+        await self.client.room_send(
+            room_id=room.room_id,
+            message_type='m.room.message',
+            content={'msgtype': 'm.text', 'body': 'Matrix bot is working!'}
+        )
+
     def register_all_handlers(self):
         self.client.add_event_callback(self.join_room_event_handler, InviteEvent)  # type: ignore
+        self.client.add_event_callback(self.test_bot_handler, filter=RoomMessageText)  # type: ignore # noqa

@@ -9,3 +9,7 @@ wheels/
 # Virtual environments
 .venv
 .env
+.mypy_cache/
+.pytest_cache/
+test.py
+matrix_events_batch
